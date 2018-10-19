@@ -24,3 +24,18 @@ We should create ssh "config" file in our home directory "~/.ssh/" with appropri
 bastion_IP = 35.234.123.137
 someinternalhost_IP = 10.156.0.3
 
+
+++++++++++++++++++++++++++++
+HW04: Self study
+++++++++++++++++++++++++++++
+
+testapp_IP = 104.155.35.71
+testapp_port = 9292 
+
+***gcloud syntax for startup_script:
+
+gcloud compute instances create reddit-app-with-startup --boot-disk-size=10GB --image-family=ubuntu-1604-lts --image-project=ubuntu-os-cloud --machine-type=g1-small --tags=puma-server --restart-on-failure --metadata-from-file startup-script=<local path to startup_script file>/startup_script.sh
+
+***gcloud syntax for firewall rules:
+
+gcloud compute firewall-rules create default-puma-server --allow tcp:9292 --description="This rule permits ingress traffic to tcp:9292 from any source"  --priority=1000 --source-ranges="0.0.0.0/0" --target-tags=puma-server
