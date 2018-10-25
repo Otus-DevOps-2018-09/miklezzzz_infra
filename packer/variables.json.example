@@ -1,0 +1,13 @@
+{
+ "project_id": "infra",
+ "source_image_family": "ubuntu-1604-lts",
+ "image_family": "reddit",
+ "zone": "europe-east3-b",
+ "ssh_username": "username",
+ "image_description": "Test LDAP Server",
+ "disk_type": "pd-standard",
+ "disk_size": "10",
+ "network" : "home",
+ "tags": "ldap-server"
+}
+

@@ -39,3 +39,18 @@ gcloud compute instances create reddit-app-with-startup --boot-disk-size=10GB --
 ***gcloud syntax for firewall rules:
 
 gcloud compute firewall-rules create default-puma-server --allow tcp:9292 --description="This rule permits ingress traffic to tcp:9292 from any source"  --priority=1000 --source-ranges="0.0.0.0/0" --target-tags=puma-server
+
+++++++++++++++++++++++++++++
+HW05: Self study
+++++++++++++++++++++++++++++
+
+- "Reddit-base" image was added to GCP infrastructure via packer config file with predefined applications for our test project.
+
+- Packer configuration file for "reddit-base" image was parametirized by means of "user variables" and file.
+
+- More packer GCP options were added (disk size/type, image description, etc... tags doesn't work, by the way) to packer configuration file.
+
+- Extended packer template and a couple of additional scripts were added to bake "Reddit-full" image with the test project running from the start (via systemd unit).
+
+- Shell script was added to run GCP instance from "Reddit-full" image via gcloud utility.
+
