@@ -54,3 +54,25 @@ HW05: Self study
 
 - Shell script was added to run GCP instance from "Reddit-full" image via gcloud utility.
 
+++++++++++++++++++++++++++++
+HW06: Self study
+++++++++++++++++++++++++++++
+
+- Simple IaC project based on Terraform utility was added.
+
+- Main TF file was parameterized by few variables.
+
+- All TF files were formatted by means of "fmt" switch (awesome).
+
+- SSH public key for an user was added to a project metadata via Terraform (ssh authentication via public key passed successfully). 
+
+- Two more ssh public keys were added to a project metadata via Terraform (ssh authentication via public keys passed successfully).
+
+- One more ssh public key was added via GCP WEB GUI so configuration drift was introduced and remediated by next "terraform apply". 
+
+- HTTP load balancer was added via Terraform utility.
+
+- Another one instance of reddit-app resource was added with intention to introduce high availability into our project. An infrastructure won't scale well with such rough approach.
+
+- Project "scalability" was improved by means of "count" attribute used in GCP instance resource definition.
+
