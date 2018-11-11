@@ -1,0 +1,11 @@
+{
+ "image_family": "reddit-app",
+ "zone": "europe-west1-b",
+ "ssh_username": "shma",
+ "image_description": "App Server",
+ "disk_type": "pd-standard",
+ "disk_size": "10",
+ "network" : "default",
+ "tags": "reddit-app-server"
+}
+

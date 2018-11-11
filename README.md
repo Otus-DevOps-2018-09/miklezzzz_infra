@@ -76,3 +76,23 @@ HW06: Self study
 
 - Project "scalability" was improved by means of "count" attribute used in GCP instance resource definition.
 
+++++++++++++++++++++++++++++
+HW07: Self study
+++++++++++++++++++++++++++++
+
+- Test app server configuration was splitted up into App server and DB server roles. Corresponding GCI images were builded with Packer.
+
+- Test IaC project was separated into reusable modules.
+
+- Modules were parameterized to extend the code reusability.
+
+- Production and Stage environments were introduced.
+
+- Terraform states for Prod and Stage were moved to remote backends (Google Cloud Storage), created with the "storage bucket" module from Terraform Module Registry.
+
+- State lock feature for GCS backend was tested. Tried to perform two different changes in an infrastructure simultaneously, with no luck.
+
+- App and DB modules were supplemented with provisioners capable to deploy "distributed" reddit application.
+
+- "deploy" variable was introduced into the project to control provisioners behavior (turn on/off provisioners).
+

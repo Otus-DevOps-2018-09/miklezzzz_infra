@@ -1,0 +1,11 @@
+{
+ "image_family": "reddit-db-base",
+ "zone": "europe-west1-b",
+ "ssh_username": "shma",
+ "image_description": "Reddit DB Server",
+ "disk_type": "pd-standard",
+ "disk_size": "10",
+ "network" : "default",
+ "tags": "reddit-db-server"
+}
+

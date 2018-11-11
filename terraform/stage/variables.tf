@@ -1,3 +1,8 @@
+variable deploy {
+  description = "The switch to disable/enable provisioners"
+  default     = 1
+}
+
 variable app_disk_image {
   description = "Disk image for reddit app"
   default     = "reddit-app-base"
