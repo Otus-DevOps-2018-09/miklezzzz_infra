@@ -96,3 +96,14 @@ HW07: Self study
 
 - "deploy" variable was introduced into the project to control provisioners behavior (turn on/off provisioners).
 
+++++++++++++++++++++++++++++
+HW08: Self study
+++++++++++++++++++++++++++++
+
+- "Reddit" repo was cloned twice with "git" module: first time there was already cloned repo in "reddit" directory and Ansible had nothing to do (changed=0) and next time, after deleting "reddit" directory by hands, Ansible indeed cloned "reddit" repo from a remote source (changed=1).
+
+- Corresponding inventory file inventory.json with current infrastructure was added.
+
+- In order to run fake dynamic inventory generation the script named dynamic_inventory.sh was added. It prints inventory.json file to stdout during execution so we can use it with Ansible like this: "ansible all -m ping -i ./dynamic_inventory.sh"
+
+- To run actual dynamic inventory generation another one script named dynamic_inventory.py was added. It works in conjunction with remote terraform tfstate file so you should put correct Google Cloud Storage bucket URL (full path) into the "GCS" variable. The script gets Terraform state file from a bucket and parse it out to produce JSON-formatted output suitable to use as inventory.
