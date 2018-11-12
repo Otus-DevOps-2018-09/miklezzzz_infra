@@ -7,7 +7,7 @@ import sys
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-GCS = 'gs://xxx/terraform/state/default.tfstate'
+GCS = 'gs://xxxx/terraform/state/default.tfstate'
 
 os.system('gsutil -q cp '+GCS+' '+current_dir+'/')
 
@@ -37,6 +37,31 @@ for modules in dictionary['modules']:
 					if not jsonout.has_key(group):
 						jsonout[group] = {'hosts':[]}
 					jsonout[group]['hosts'].append(instance_name)
+
+					zone = modules['resources'][attributes]['primary']['attributes']['zone']
+                                        if zone not in jsonout['all']['children']:
+						jsonout['all']['children'].append(zone)
+					if not jsonout.has_key(zone):
+                                                jsonout[zone] = {'hosts':[]}
+					jsonout[zone]['hosts'].append(instance_name)
+
+					project = modules['resources'][attributes]['primary']['attributes']['project']
+                                        if project not in jsonout['all']['children']:
+                                                jsonout['all']['children'].append(project)
+                                        if not jsonout.has_key(project):
+                                                jsonout[project] = {'hosts':[]}
+                                        jsonout[project]['hosts'].append(instance_name)
+					for subattributes in modules['resources'][attributes]['primary']['attributes']:
+						tags = ''
+						if 'tags.' in subattributes and subattributes <> 'tags.#':
+							tags = 'tag_'+modules['resources'][attributes]['primary']['attributes'][subattributes]
+							if tags not in jsonout['all']['children']:
+								jsonout['all']['children'].append(tags)
+							if not jsonout.has_key(tags):
+								jsonout[tags] = {'hosts':[]}
+							jsonout[tags]['hosts'].append(instance_name)
+								
+					
 
 os.remove(current_dir+'/default.tfstate')
 

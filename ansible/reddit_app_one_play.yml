@@ -1,0 +1,79 @@
+
+---
+- name: Configure hosts & deploy the application
+  hosts: all
+  vars:
+    mongo_bind_ip: 0.0.0.0
+    db_host: 10.132.0.2
+  tasks:
+    
+    - name: Add mongoDB repo
+      apt_repository:
+        repo: deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse
+        state: present
+      become: true
+      tags: db-tag
+
+    - name: Install mongoDB
+      become: true
+      apt:
+        name: mongodb-org
+        state: present
+        update_cache: yes
+      tags: db-tag
+
+    - name: Enable mongoDB service
+      systemd: name=mongod enabled=yes
+      tags: db-tag
+
+    - name: Change mongo config file
+      become: true 
+      template: 
+        src: templates/mongod.conf.j2
+        dest: /etc/mongod.conf
+        mode: 0644
+      tags: db-tag
+      notify: Restart mongod service
+   
+    - name: Fetch the latest version of apliction code
+      git: 
+        repo: 'https://github.com/express42/reddit.git'
+        dest: /home/shma/reddit
+        version: monolith
+      tags: deploy-tag
+      notify: Restart puma service
+
+    - name: Bundle install
+      bundler:
+        state: present
+        chdir: /home/shma/reddit
+      tags: deploy-tag
+
+    - name: Add config for DB connection
+      template:
+        src: templates/db_config.j2
+        dest: /home/shma/db_config
+      tags: app-tag
+
+    - name: Add unit file for Puma
+      become: true
+      copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+      tags: app-tag
+      notify: Restart puma service
+
+    - name: Enable puma service
+      become: true
+      systemd: name=puma enabled=yes
+      tags: app-tag
+ 
+  handlers:
+  - name: Restart mongod service
+    become: true
+    service: name=mongod state=restarted
+
+  - name: Restart puma service
+    become: true
+    service: name=puma state=restarted
+

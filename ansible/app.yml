@@ -1,0 +1,29 @@
+---
+- name: Configure App servers for the application
+  hosts: app
+  become: true
+  vars:
+    db_host: 10.132.0.2
+  tags: app-tag
+  tasks:
+
+    - name: Add config for DB connection
+      template:
+        src: templates/db_config.j2
+        dest: /home/shma/db_config
+        owner: shma
+        group: shma
+
+    - name: Add unit file for Puma
+      copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+      notify: Restart puma service
+
+    - name: Enable puma service
+      systemd: name=puma enabled=yes
+
+  handlers:
+  - name: Restart puma service
+    service: name=puma state=restarted
+

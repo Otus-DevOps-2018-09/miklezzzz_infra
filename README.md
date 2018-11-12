@@ -107,3 +107,14 @@ HW08: Self study
 - In order to run fake dynamic inventory generation the script named dynamic_inventory.sh was added. It prints inventory.json file to stdout during execution so we can use it with Ansible like this: "ansible all -m ping -i ./dynamic_inventory.sh"
 
 - To run actual dynamic inventory generation another one script named dynamic_inventory.py was added. It works in conjunction with remote terraform tfstate file so you should put correct Google Cloud Storage bucket URL (full path) into the "GCS" variable. The script gets Terraform state file from a bucket and parse it out to produce JSON-formatted output suitable to use as inventory.
+
+++++++++++++++++++++++++++++
+HW09: Self study
+++++++++++++++++++++++++++++
+
+- Ansible playbooks were written and tested to provision and deploy the application.
+
+- Packer files for building App and Db images were updated to use ansible provisioners (with playbooks).
+
+- Dynamic inventory script "dynamic_inventory.py" was updated: now it can group hosts by zone and tags, in addition to GCC instance name (not id).
+
