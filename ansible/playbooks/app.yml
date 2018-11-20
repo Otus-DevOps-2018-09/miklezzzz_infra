@@ -7,3 +7,7 @@
     - app
     - jdauphant.nginx
 
+  tasks:
+    - name: Debug msg
+      debug:
+        msg: "deploy user is {{ deploy_user }}"

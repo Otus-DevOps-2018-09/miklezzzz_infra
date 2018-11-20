@@ -1,5 +1,5 @@
 ---
 # handlers file for app
-  - name: Restart puma service
-    service: name=puma state=restarted
+- name: Restart puma service
+  service: name=puma state=restarted
 
