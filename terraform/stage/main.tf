@@ -19,7 +19,7 @@ module "app" {
   db_internal_ip           = "${module.db.internal_ip[0]}"
   app_disk_image           = "${var.app_disk_image}"
   name                     = "reddit-app-stage"
-  tags                     = ["stage", "reddit-app"]
+  tags                     = ["stage", "reddit-app", "http-server"]
   app_ip_name              = "reddit-app-ip-stage"
   ssh_key_for_provisioners = "${var.ssh_key_for_provisioners}"
 }

@@ -1,8 +1,33 @@
 dist: trusty
 sudo: required
 language: bash
+before_script:
 before_install:
 - curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-09/run.sh | bash
+before_script:
+- echo "Preparation...."
+- sudo apt update && sudo apt install python gcc python-pip libssl-dev libffi-dev
+- pip install --user ansible && pip install --user ansible-lint && pip install --user cryptography==2.2.2
+- echo "Terraform installation"
+- wget https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip -O /tmp/terraform.zip
+- sudo unzip -d /usr/local/bin/ /tmp/terraform.zip
+- touch /home/travis/.ssh/appuser.pub && touch /home/travis/.ssh/appuser
+- echo "TFlint installation"
+- wget https://github.com/wata727/tflint/releases/download/v0.7.2/tflint_linux_amd64.zip -O /tmp/tflint.zip
+- sudo unzip -d /usr/local/bin/ /tmp/tflint.zip
+script:
+- echo "Packer templates validation"
+- cp packer/variables.json.example packer/variables.json && find packer -regextype posix-egrep -regex ".*/(app|db)\.json" -type f -print0 | xargs -0 -n1 packer validate -var-file=packer/variables.json
+- echo "Terraform config validation"
+- cp terraform/stage/terraform.tfvars.example terraform/stage/terraform.tfvars && terraform init -backend=false terraform/stage && terraform validate -var-file terraform/stage/terraform.tfvars terraform/stage
+- cp terraform/prod/terraform.tfvars.example terraform/prod/terraform.tfvars && terraform init -backend=false terraform/prod && terraform validate -var-file terraform/prod/terraform.tfvars terraform/prod
+- echo "Tflint validation"
+- tflint terraform/stage/*.tf --var-file=terraform/stage/terraform.tfvars
+- tflint terraform/prod/*.tf --var-file=terraform/prod/terraform.tfvars
+- echo "Ansible playbooks validation"
+- find ansible/playbooks -name *.yml -type f -print0 | xargs -0 -n1 ansible-lint
+- echo "Check for a badge in README.md"
+- grep "\[\!\[Build Status\](https://.*)\](https://.*)" README.md
 notifications:
   slack:
     rooms:

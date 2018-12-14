@@ -5,3 +5,7 @@ variables.json
 *.tfstate.backup
 *.tfvars
 .terraform/
+*.retry
+jdauphant.nginx
+vault.key
+

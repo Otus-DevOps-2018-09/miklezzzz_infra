@@ -1,7 +1,9 @@
 - name: Clone
   hosts: app
-  tasks: 
+  tasks:
     - name: Clone repo
-      git: 
+      git:
+        version: monolith
         repo: https://github.com/express42/reddit.git
         dest: /home/shma/reddit
+

@@ -1,4 +1,4 @@
-# miklezzzz_infra
+# miklezzzz_infra [![Build Status](https://travis-ci.com/Otus-DevOps-2018-09/miklezzzz_infra.svg?branch=master)](https://travis-ci.com/Otus-DevOps-2018-09/miklezzzz_infra)
 miklezzzz Infra repository
 
 ++++++++++++++++++++++++++++
@@ -117,4 +117,20 @@ HW09: Self study
 - Packer files for building App and Db images were updated to use ansible provisioners (with playbooks).
 
 - Dynamic inventory script "dynamic_inventory.py" was updated: now it can group hosts by zone and tags, in addition to GCC instance name (not id).
+
+++++++++++++++++++++++++++++
+HW10: Self study
+++++++++++++++++++++++++++++
+
+- Ansible playbooks for App and Db instances were reviewed and decomposed into Ansible roles.
+
+- Ansible configuration was splitted up to Production and Stage environments with different vars/inventories. By this means we continue environments separation we started in Terraform.
+
+- External role for NGINX was borrowed from Ansible Galaxy. Nginx reverse proxy deployment and configuration via ansible were accomplished and tested to redirect web-traffic from :9292 to :80 on App servers.
+
+- To protect user's sensitive data in plybooks Ansible Vault was used.
+
+- * Dynamic inventories for Prod/Stage environment were introduced, one more time :)
+
+- ** Few test were added to .travis.yml to check packer/terraform/ansible images/templates/configurations for consistency.
 

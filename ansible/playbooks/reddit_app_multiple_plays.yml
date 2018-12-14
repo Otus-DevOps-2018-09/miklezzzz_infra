@@ -1,79 +1,79 @@
-
 ---
-- name: Configure hosts & deploy the application
-  hosts: all
+- name: Configure DB servers for the application
+  hosts: db
+  become: true
   vars:
     mongo_bind_ip: 0.0.0.0
-    db_host: 10.132.0.2
+  tags: db-tag
   tasks:
-    
+
     - name: Add mongoDB repo
       apt_repository:
         repo: deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse
         state: present
-      become: true
-      tags: db-tag
 
     - name: Install mongoDB
-      become: true
       apt:
         name: mongodb-org
         state: present
         update_cache: yes
-      tags: db-tag
 
     - name: Enable mongoDB service
       systemd: name=mongod enabled=yes
-      tags: db-tag
 
     - name: Change mongo config file
-      become: true 
-      template: 
+      template:
         src: templates/mongod.conf.j2
         dest: /etc/mongod.conf
         mode: 0644
-      tags: db-tag
-      notify: Restart mongod service
-   
+      notify: restart mongod
+
+  handlers:
+  - name: restart mongod
+    service: name=mongod state=restarted
+
+- name: Deploy the application on App server
+  hosts: app
+  become: true
+  tags: deploy-app
+  tasks:
+
     - name: Fetch the latest version of apliction code
-      git: 
+      git:
         repo: 'https://github.com/express42/reddit.git'
         dest: /home/shma/reddit
         version: monolith
-      tags: deploy-tag
-      notify: Restart puma service
 
     - name: Bundle install
       bundler:
         state: present
         chdir: /home/shma/reddit
-      tags: deploy-tag
+
+- name: Configure App servers for the application
+  hosts: app
+  become: true
+  vars:
+    db_host: 10.132.0.2
+  tags: app-tag
+  tasks:
 
     - name: Add config for DB connection
       template:
         src: templates/db_config.j2
         dest: /home/shma/db_config
-      tags: app-tag
+        owner: shma
+        group: shma
 
     - name: Add unit file for Puma
-      become: true
       copy:
         src: files/puma.service
         dest: /etc/systemd/system/puma.service
-      tags: app-tag
       notify: Restart puma service
 
     - name: Enable puma service
-      become: true
       systemd: name=puma enabled=yes
-      tags: app-tag
- 
-  handlers:
-  - name: Restart mongod service
-    become: true
-    service: name=mongod state=restarted
 
+  handlers:
   - name: Restart puma service
-    become: true
     service: name=puma state=restarted
 

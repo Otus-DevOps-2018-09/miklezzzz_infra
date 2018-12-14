@@ -30,7 +30,7 @@ module "app" {
   zone                     = "${var.zone}"
   app_disk_image           = "${var.app_disk_image}"
   name                     = "reddit-app-prod"
-  tags                     = ["prod", "reddit-app"]
+  tags                     = ["prod", "reddit-app", "http-server"]
   app_ip_name              = "reddit-app-ip-prod"
   ssh_key_for_provisioners = "${var.ssh_key_for_provisioners}"
 }

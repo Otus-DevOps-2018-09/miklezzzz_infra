@@ -1,0 +1,8 @@
+---
+- name: Configure DB servers for the application
+  hosts: db
+  become: true
+
+  roles:
+    - db
+
