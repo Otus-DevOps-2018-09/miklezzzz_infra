@@ -7,7 +7,7 @@ import sys
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-GCS = 'gs://xxxx/terraform/state/default.tfstate'
+GCS = 'gs://tf-back-prod/terraform/state/default.tfstate'
 
 os.system('gsutil -q cp '+GCS+' '+current_dir+'/')
 

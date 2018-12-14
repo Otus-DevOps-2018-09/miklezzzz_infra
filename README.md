@@ -128,9 +128,36 @@ HW10: Self study
 
 - External role for NGINX was borrowed from Ansible Galaxy. Nginx reverse proxy deployment and configuration via ansible were accomplished and tested to redirect web-traffic from :9292 to :80 on App servers.
 
-- To protect user's sensitive data in plybooks Ansible Vault was used.
+- To protect user's sensitive data in playbooks Ansible Vault was used.
 
 - * Dynamic inventories for Prod/Stage environment were introduced, one more time :)
 
 - ** Few test were added to .travis.yml to check packer/terraform/ansible images/templates/configurations for consistency.
 
+++++++++++++++++++++++++++++
+HW11: Self study
+++++++++++++++++++++++++++++
+
+- Vagrant utility with VirtualBox was used to provide local test environment for Ansible roles/playbooks development.
+
+- Vagrant was configureed to use Ansible as a provisioner for local environment.
+
+- Ansible DB role was refined to encompass all tasks necessary for MongoDB provisioning and deployment.
+
+- Ansible APP role was refined to encompass all tasks necessary for Puma-server provisioning and deployment.
+
+- Ansible roles were parameterized through introducing "deploy_user" variable.
+
+* - Nginx configuration was added into Vagrant definition file.
+
+- In order to test Ansible playbooks/roles Molecule utility was installed and configured to use Vagrant as a driver.
+
+- Ansible DB role was tested with Molecule. One more test was added to check if tcp27017 port is up and running. i
+
+- Final versions of Ansible roles were added to playbooks used by Packer.
+
+* - DB role was moved to external GitHub repository (miklezzzz/db-role) and it should be imported with ansible-galaxy (requirements.yml provided).
+
+* - TravisCi integration was configured for miklezzzz/db-role repository: Travis was configured to use Molecule with GCP to run few tests against DB role.
+
+* - Travis status message was added to DB role repository and Slack notifications were configured also.

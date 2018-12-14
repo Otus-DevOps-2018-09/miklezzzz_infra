@@ -3,13 +3,6 @@
   hosts: all
   become: yes
   tags: app-deploy
-  tasks:
-
-    - name: Install app dependencies
-      apt: "name={{ item }} state=present"
-      with_items:
-        - ruby-full
-        - ruby-bundler
-        - build-essential
-      update_cache: yes
+  roles:
+    - role: app
 
